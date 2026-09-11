@@ -1,0 +1,72 @@
+export const countries = [
+  ['IND','India','#edaa62'],['SGP','Singapore','#68d1be'],['JPN','Japan','#f08c9e'],['CHN','China','#ad99e8'],['USA','United States','#7dafe8'],
+  ['DNK','Denmark','#ddd080'],['NOR','Norway','#77bc9d'],['SWE','Sweden','#68c5df'],['FIN','Finland','#d394cb'],['ISL','Iceland','#b7c4cc']
+].map(([id,name,color])=>({id,name,color}));
+const rows = [
+ ['SI.DST.FRST.20','Bottom 20% income / consumption share','Shared prosperity','% of survey welfare','higher'],
+ ['SI.DST.02ND.20','Second 20% income / consumption share','Shared prosperity','% of survey welfare','context'],
+ ['SI.DST.10TH.10','Top 10% income / consumption share','Shared prosperity','% of survey welfare','context'],
+ ['SI.SPR.PC40.ZG','Bottom 40% real welfare growth','Shared prosperity','Annualised % over survey interval','higher'],
+ ['SI.SPR.PCAP.ZG','National mean real welfare growth','Shared prosperity','Annualised % over survey interval','higher'],
+ ['EN.GHG.CO2.PC.CE.AR5','CO2 emissions per person','Environment','Tonnes CO2e per person; excludes land use','lower'],
+ ['SP.POP.SCIE.RD.P6','Researchers per million people','Research','Researchers (FTE) per million','higher'],
+ ['SP.POP.TECH.RD.P6','R&D technicians per million people','Research','Technicians (FTE) per million','higher'],
+ ['IP.JRN.ARTC.SC','Scientific and technical journal articles','Research','Articles','context'],
+ ['IP.PAT.RESD','Resident patent applications','Research','Applications','context'],
+ ['NY.GDP.PCAP.PP.KD','GDP per capita, PPP','Economy','Constant 2021 international $','context'],
+ ['NY.GDP.MKTP.KD.ZG','Real GDP growth','Economy','Annual %','context'],
+ ['FP.CPI.TOTL.ZG','Consumer price inflation','Economy','Annual %','context'],
+ ['SL.UEM.TOTL.ZS','Unemployment','Economy','% of labour force','lower'],
+ ['SI.POV.GINI','Income / consumption inequality (Gini)','Economy','0–100 index','lower'],
+ ['SI.POV.DDAY','Extreme poverty','Economy','% of population','lower'],
+ ['NE.TRD.GNFS.ZS','Trade openness','Economy','% of GDP','context'],
+ ['NV.IND.MANF.ZS','Manufacturing value added','Economy','% of GDP','context'],
+ ['SP.DYN.LE00.IN','Life expectancy','Health','Years','higher'],
+ ['SH.DYN.MORT','Under-five mortality','Health','Deaths per 1,000 live births','lower'],
+ ['SH.STA.MMRT','Maternal mortality','Health','Deaths per 100,000 live births','lower'],
+ ['SH.XPD.CHEX.GD.ZS','Health expenditure','Health','% of GDP','context'],
+ ['SH.XPD.OOPC.CH.ZS','Out-of-pocket health spending','Health','% of health expenditure','lower'],
+ ['SH.MED.PHYS.ZS','Physicians','Health','Per 1,000 people','higher'],
+ ['SH.IMM.IDPT','DPT immunisation','Health','% of children ages 12–23 months','higher'],
+ ['SE.ADT.LITR.ZS','Adult literacy','Education','% ages 15+','higher'],
+ ['SE.SEC.ENRR','Secondary school enrolment','Education','Gross %','higher'],
+ ['SE.TER.ENRR','Tertiary school enrolment','Education','Gross %','higher'],
+ ['SE.XPD.TOTL.GD.ZS','Education expenditure','Education','% of GDP','context'],
+ ['SE.PRM.CMPT.ZS','Primary completion','Education','% of relevant age group','higher'],
+ ['SL.TLF.CACT.FE.ZS','Female labour participation','People & equity','% of women ages 15+','context'],
+ ['SG.GEN.PARL.ZS','Women in parliament','People & equity','% of seats','context'],
+ ['SP.POP.TOTL','Population','People & equity','People','context'],
+ ['SP.URB.TOTL.IN.ZS','Urban population','People & equity','% of population','context'],
+ ['SP.POP.65UP.TO.ZS','Population aged 65+','People & equity','% of population','context'],
+ ['SN.ITK.DEFC.ZS','Undernourishment','Food & nutrition','% of population','lower'],
+ ['SN.ITK.MSFI.ZS','Moderate or severe food insecurity','Food & nutrition','% of population','lower'],
+ ['SH.STA.STNT.ZS','Child stunting','Food & nutrition','% of children under five','lower'],
+ ['SH.STA.WAST.ZS','Child wasting','Food & nutrition','% of children under five','lower'],
+ ['AG.PRD.FOOD.XD','Food production index','Food & nutrition','2014–2016 = 100','context'],
+ ['SH.H2O.SMDW.ZS','Safely managed drinking water','Water & sanitation','% of population','higher'],
+ ['SH.STA.SMSS.ZS','Safely managed sanitation','Water & sanitation','% of population','higher'],
+ ['SH.STA.BASS.ZS','Basic sanitation','Water & sanitation','% of population','higher'],
+ ['SH.H2O.BASW.ZS','Basic drinking water','Water & sanitation','% of population','higher'],
+ ['EN.ATM.PM25.MC.M3','PM2.5 exposure','Environment','Micrograms per cubic metre','lower'],
+ ['EG.FEC.RNEW.ZS','Renewable energy consumption','Environment','% of final energy use','higher'],
+ ['AG.LND.FRST.ZS','Forest area','Environment','% of land area','context'],
+ ['ER.H2O.FWST.ZS','Freshwater stress','Environment','% of available freshwater','lower'],
+ ['EG.ELC.ACCS.ZS','Electricity access','Infrastructure','% of population','higher'],
+ ['IT.NET.USER.ZS','Internet use','Infrastructure','% of population','higher'],
+ ['IT.NET.BBND.P2','Fixed broadband subscriptions','Infrastructure','Per 100 people','context'],
+ ['GB.XPD.RSDV.GD.ZS','Research and development','Infrastructure','% of GDP','context'],
+ ['GOV_WGI_RL.EST','Rule of law','Institutions','Governance estimate','higher',3],
+ ['GOV_WGI_GE.EST','Government effectiveness','Institutions','Governance estimate','higher',3],
+ ['GOV_WGI_CC.EST','Control of corruption','Institutions','Governance estimate','higher',3],
+ ['GOV_WGI_VA.EST','Voice and accountability','Institutions','Governance estimate','higher',3]
+];
+export const indicators = rows.map(([id,name,category,unit,direction,source=2])=>({id,name,category,unit,direction,source,url:`https://data.worldbank.org/indicator/${id}`}));
+export const pending = [
+ {name:'Foodborne disease deaths and DALYs',category:'Food safety',source:'WHO',url:'https://www.who.int/activities/estimating-the-burden-of-foodborne-diseases',reason:'Needs comparable country estimates with reference year and uncertainty intervals.'},
+ {name:'Food recalls and enforcement actions',category:'Food safety',source:'National regulators',url:'https://www.fssai.gov.in/',reason:'National surveillance and reporting differ. Recall counts are not a country safety ranking.'},
+ {name:'Life evaluation / happiness',category:'People & equity',source:'World Happiness Report',url:'https://www.worldhappiness.report/',reason:'Edition, survey windows and data reuse terms require review.'},
+ {name:'SDG index and targets',category:'Institutions',source:'Sustainable Development Report',url:'https://www.sdgindex.org/',reason:'Composite scores are not yet connected; individual development indicators are available above.'}
+];
+
+
+

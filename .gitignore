@@ -1,0 +1,22 @@
+# Dependencies and local logs
+node_modules/
+*.log
+__pycache__/
+# Credentials and local publishing helpers
+.env
+.env.*
+*apikey*
+*Apikey*
+.local-publish/
+# Downloaded source archives and development inspection artifacts
+data/sources/
+data/*.tmp
+data/*-probe.json
+data/*-metadata.json
+data/undp-hdr2025.csv
+scripts/probe_hdro.mjs
+scripts/read_hdro_manual.py
+scripts/read_research.py
+scripts/render_research.py
+scripts/inspect_research.py
+scripts/inspect_sources.py
