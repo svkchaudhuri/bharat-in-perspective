@@ -19,6 +19,11 @@ http.createServer(async(req,res)=>{
  try{
   const accessUrl=new URL(req.url,'http://localhost');
   if(accessUrl.pathname==='/healthz'){res.writeHead(200);return res.end('ok');}
+  // Only installation metadata and flag icons are public; dashboard data stays gated.
+  if(req.method==='GET' && /^\/(site\.webmanifest|assets\/icons\/india-(48|180|192|512)\.png)$/.test(accessUrl.pathname)){
+   res.setHeader('Content-Type',accessUrl.pathname.endsWith('.webmanifest')?'application/manifest+json':'image/png');
+   return res.end(await readFile(path.join(root,accessUrl.pathname.slice(1))));
+  }
   if(await gate(req,res,accessUrl))return;
   if(req.method!=='GET'){res.writeHead(405);return res.end('Method not allowed');}
   const url=new URL(req.url,'http://localhost');
