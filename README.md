@@ -173,3 +173,11 @@ Reproduce state snapshots after fetching sources: `python scripts/import_states.
 
 ### Final weather-map implementation
 Windy's iframe remained blank in the in-app preview despite a successful provider HTTP response. The final UI therefore uses a local SVG city-point forecast map with a seven-day slider and play/pause control, plus a direct link to the full Windy map. There is no embedded iframe in the final version. The local map shows six Indian cities or all 15 comparison-city points, with separate layers for daily maximum temperature, total precipitation and maximum wind speed. Values come from Open-Meteo and are not interpolated into a continuous field. The table retains point timestamps and missing coverage. This supersedes the embedded-map description above. Both point forecasts and map data refresh on a 15-minute interval while Live context is active; timeline playback stops when leaving the tab.
+
+## Protected Render preview
+
+The Render web service uses the free plan in Singapore and automatically deploys `main`. `PREVIEW_PROTECTED=true` enables the shared-password gate; `PREVIEW_PASSWORD` is set privately in Render, never committed. Hosted instances default to protected unless `PREVIEW_PROTECTED=false` explicitly enables public access. `/healthz` exposes only a generic health response. All application assets, snapshots and APIs pass through the gate.
+
+Sessions last up to 24 hours and reset when the process restarts (including a free-tier cold start). Visit `/logout` to clear the browser session. Login attempts are limited in memory; counters reset on process restart. This is a small-group preview gate, not individual account management. Anyone given the shared password can forward it. Protected responses are marked no-store and noindex. To publish later, set `PREVIEW_PROTECTED=false` in Render and redeploy; the URL stays the same. Keep source licences and notices in place.
+
+Git commits do not refresh source observations automatically. Refresh data separately and commit the resulting approved snapshots. The public-data/API licensing distinction is documented in HDRO_REUSE_REVIEW.md; restricted access does not itself grant redistribution rights.

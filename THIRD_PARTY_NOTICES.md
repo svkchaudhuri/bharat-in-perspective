@@ -8,7 +8,7 @@ World Bank and underlying providers retain their respective data attribution and
 
 USGS event data is retrieved from the public GeoJSON feed. Official event links are preserved.
 
-UNDP HDR 2025 data is used with source and edition attribution. Consult https://hdr.undp.org/data-center/documentation-and-downloads before redistribution.
+UNDP Human Development Report Office, Human Development Reports data: the HDR website material is licensed under CC BY 3.0 IGO, https://creativecommons.org/licenses/by/3.0/igo/, pursuant to https://hdr.undp.org/terms-use. Source: https://hdr.undp.org/data-center/documentation-and-downloads. Bharat in Perspective selects, reformats and visualises the data; derived measures are identified separately. UNDP does not endorse this dashboard. Preserve edition, observation years and retrieval dates. See HDRO_REUSE_REVIEW.md for the evidence and the separate, not conclusively verified API subscription scope.
 
 WHO SPAR second-edition data is used with source and instrument attribution. Source: https://www.who.int/data/gho/data/indicators/indicator-details/GHO/food-safety-ihr. National self-assessments are not estimates of food contamination rates.
 

@@ -1,8 +1,11 @@
+import {accessGate} from './access.mjs';
 import {weather} from './weather.mjs';
 import http from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+const hosted=process.env.RENDER==='true';
+const gate=accessGate({enabled:process.env.PREVIEW_PROTECTED==='true'||(hosted&&process.env.PREVIEW_PROTECTED!=='false'),password:process.env.PREVIEW_PASSWORD,secure:hosted});
 const root=fileURLToPath(new URL('.',import.meta.url));
 let eventsCache=null,eventPromise=null;
 async function events(){
@@ -14,6 +17,9 @@ const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=
 http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Cache-Control','no-cache');
  try{
+  const accessUrl=new URL(req.url,'http://localhost');
+  if(accessUrl.pathname==='/healthz'){res.writeHead(200);return res.end('ok');}
+  if(await gate(req,res,accessUrl))return;
   if(req.method!=='GET'){res.writeHead(405);return res.end('Method not allowed');}
   const url=new URL(req.url,'http://localhost');
   if(url.pathname==='/api/weather'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(await weather(url.searchParams.get('city')||'delhi')));}
@@ -23,7 +29,7 @@ http.createServer(async(req,res)=>{
   if(!target.startsWith(root)||!/^\/(assets\/india-landscape\.png|index\.html|app\.js|regional\.js|data\/states\.json|extensions\.js|model\.js|style\.css|data\/snapshot\.(js|json)|vendor\/[\w.-]+)$/.test(requested)){res.writeHead(404);return res.end('Not found');}
   const content=await readFile(target);res.setHeader('Content-Type',types[path.extname(target)]||'application/octet-stream');res.end(content);
  }catch(e){res.writeHead(req.url.startsWith('/api/')?502:404,{'Content-Type':'application/json'});res.end(JSON.stringify({status:'unavailable',error:e.message}));}
-}).listen(Number(process.env.PORT)||4173,'127.0.0.1',()=>console.log('India World Observatory: http://127.0.0.1:4173'));
+}).listen(Number(process.env.PORT)||4173,hosted?'0.0.0.0':'127.0.0.1',()=>console.log('Bharat in Perspective server ready'));
 
 
 
