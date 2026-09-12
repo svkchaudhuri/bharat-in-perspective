@@ -1,6 +1,6 @@
 import {createHash,createHmac,randomBytes,timingSafeEqual} from 'node:crypto';
 const equal=(a,b)=>timingSafeEqual(createHash('sha256').update(a).digest(),createHash('sha256').update(b).digest());
-export function accessGate({enabled,password,secure=false}){
+export function accessGate({enabled,password,secure=false,publicOrigin}){
  const key=randomBytes(32), attempts=new Map(), lifetime=86400;
  const sign=s=>createHmac('sha256',key).update(s).digest('hex');
  const cookie=(v,age)=>`bip_session=${v}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${secure?'; Secure':''}`;
@@ -11,7 +11,8 @@ export function accessGate({enabled,password,secure=false}){
   if(!password){res.writeHead(503);res.end('Private preview is not configured.');return true;}
   if(url.pathname==='/logout'){res.setHeader('Set-Cookie',cookie('',0));res.writeHead(303,{Location:'/'});res.end();return true;}
   if(url.pathname==='/login'&&req.method==='POST'){
-   if(req.headers.origin&&req.headers.origin!==`${secure?'https':'http'}://${req.headers.host}`){res.writeHead(403);res.end('Forbidden');return true;}
+   // Embedded browsers can submit an opaque (null) origin. This shared-password gate has no user-specific account to switch.
+   if(req.headers.origin&&req.headers.origin!=='null'&&req.headers.origin!==(publicOrigin||`${secure?'https':'http'}://${req.headers.host}`)){res.writeHead(403);res.end('Forbidden');return true;}
    // Trust Render's appended client address, never a caller-supplied first entry.
    const ip=secure?String(req.headers['x-forwarded-for']||req.socket.remoteAddress).split(',').at(-1).trim():req.socket.remoteAddress;
    const now=Date.now();for(const [k,v]of attempts)if(v.until<=now)attempts.delete(k);

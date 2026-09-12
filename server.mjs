@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 const hosted=process.env.RENDER==='true';
-const gate=accessGate({enabled:process.env.PREVIEW_PROTECTED==='true'||(hosted&&process.env.PREVIEW_PROTECTED!=='false'),password:process.env.PREVIEW_PASSWORD,secure:hosted});
+const gate=accessGate({enabled:process.env.PREVIEW_PROTECTED==='true'||(hosted&&process.env.PREVIEW_PROTECTED!=='false'),password:process.env.PREVIEW_PASSWORD,secure:hosted,publicOrigin:process.env.RENDER_EXTERNAL_URL?new URL(process.env.RENDER_EXTERNAL_URL).origin:undefined});
 const root=fileURLToPath(new URL('.',import.meta.url));
 let eventsCache=null,eventPromise=null;
 async function events(){
